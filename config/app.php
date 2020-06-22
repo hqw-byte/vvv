@@ -142,5 +142,10 @@ return [
     'show_error_msg'         => false,
     // 异常处理handle类 留空使用 \think\exception\Handle
     'exception_handle'       => '',
-
+    // 验证码
+    'Captcha' =>[
+        'length' => 3,
+        'useCurve' => false,
+        
+    ]
 ];

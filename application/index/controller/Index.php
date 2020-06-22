@@ -48,25 +48,37 @@ class Index extends Controller
     public function dologin(){
         $username = input('post.username','');
         $password = input('post.pwd','');
-        $where = [
-            'username'=>  $username,
-            'password'=>  $password
-        ];
-        $result = db('wjx_user')->where($where)-> find();
-        if($result){
+        $code = input('post.code','');
+        if(!captcha_check($code)){
+            // 验证失败
+            echo '验证码错误';
             $resultJson = [
-                'error_code' => 10000,
-                'msg' => '登录成功!'
+                'error_code' => 10002,
+                'msg' => '验证码错误!'
             ];
-            // Session::set('name','thinkphp');
-            Session::set('username', $username);
+
         }else{
-            $resultJson = [
-                'error_code' => 10001,
-                'msg' => '账号或密码错误，登录失败!'
+            $where = [
+                'username'=>  $username,
+                'password'=>  $password
             ];
-           
+            $result = db('wjx_user')->where($where)-> find();
+            if($result){
+                $resultJson = [
+                    'error_code' => 10000,
+                    'msg' => '登录成功!'
+                ];
+                // Session::set('name','thinkphp');
+                Session::set('username', $username);
+            }else{
+                $resultJson = [
+                    'error_code' => 10001,
+                    'msg' => '账号或密码错误，登录失败!'
+                ];
+               
+            }
         }
+       
         echo json_encode($resultJson);
 
     }
