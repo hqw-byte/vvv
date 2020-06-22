@@ -1,15 +1,73 @@
 <?php
 namespace app\index\controller;
+use think\Controller;
+use think\facade\Session;
 
-class Index
+class Index extends Controller
 {
     public function index()
     {
-        return '<style type="text/css">*{ padding: 0; margin: 0; } div{ padding: 4px 48px;} a{color:#2E5CD5;cursor: pointer;text-decoration: none} a:hover{text-decoration:underline; } body{ background: #fff; font-family: "Century Gothic","Microsoft yahei"; color: #333;font-size:18px;} h1{ font-size: 100px; font-weight: normal; margin-bottom: 12px; } p{ line-height: 1.6em; font-size: 42px }</style><div style="padding: 24px 48px;"> <h1>:) </h1><p> ThinkPHP V5.1<br/><span style="font-size:30px">12载初心不改（2006-2018） - 你值得信赖的PHP框架</span></p></div><script type="text/javascript" src="https://tajs.qq.com/stats?sId=64890268" charset="UTF-8"></script><script type="text/javascript" src="https://e.topthink.com/Public/static/client.js"></script><think id="eab4b9f840753f8e7"></think>';
+        return $this->fetch('index');
     }
 
-    public function hello($name = 'ThinkPHP5')
+    public function login()
     {
-        return 'hello,' . $name;
+        return $this->fetch('login');
+    }
+    public function reg()
+    {
+        return $this->fetch('reg');
+    }
+    public function doReg(){
+        $username = input('post.username','');
+        $password = input('post.pwd','');
+        $result = db('wjx_user')->where('username',$username)->find();
+        if($result){
+            $resultJson = [
+                'error_code' => 10001,
+                'msg' => '账号重复，请重新输入!'
+            ];
+        }else{
+           
+            $where = [
+                'username'=>$username,
+                'password'=>$password,
+                'address'=>'厦门'
+            ];
+            $result = db('wjx_user')->insert($where, true);
+            if($result){
+                $resultJson = [
+                    'error_code' => 10000,
+                    'msg' => '注册成功!'
+                ];
+            }
+
+        }
+        echo json_encode($resultJson);
+    }
+    public function dologin(){
+        $username = input('post.username','');
+        $password = input('post.pwd','');
+        $where = [
+            'username'=>  $username,
+            'password'=>  $password
+        ];
+        $result = db('wjx_user')->where($where)-> find();
+        if($result){
+            $resultJson = [
+                'error_code' => 10000,
+                'msg' => '登录成功!'
+            ];
+            // Session::set('name','thinkphp');
+            Session::set('username', $username);
+        }else{
+            $resultJson = [
+                'error_code' => 10001,
+                'msg' => '账号或密码错误，登录失败!'
+            ];
+           
+        }
+        echo json_encode($resultJson);
+
     }
 }

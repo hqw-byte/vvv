@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>问卷星后台登录页面</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container">
+
+    <form class="form-signin">
+      <h2 class="form-signin-heading">请注册</h2>
+
+      <span>用户名</span>
+      <input type="text" id="username" class="form-control" placeholder="请输入3位字母与3位数字的组合" required autofocus>
+      <span>密码</span>
+      <input type="password" id="pwd" class="form-control" placeholder="请输入6位数字的组合" required>
+      <span>确认密码</span>
+
+      <input type="password" id="pwd2" class="form-control" placeholder="请输入6位数字的组合" required>
+
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" value="remember-me"> 记住我
+        </label>
+      </div>
+
+
+      <!-- <div><img src="" alt="" /></div> -->
+      <button class="btn btn-lg btn-primary btn-block" type="button" onclick="doReg()">注册</button>
+    </form>
+    <a href="{:url('index/index/login')}" style="font-size: 22px;">登录</a>
+  </div> <!-- /container -->
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+  <script>
+    function doReg() {
+      var reg1 = /^[A-z]{3}[0-9]{3}$/;
+      var reg2 = /^[0-9]{6}$/;
+      var username = $("#username").val();
+      var pwd = $("#pwd").val();
+      var pwd2 = $("#pwd2").val();
+
+      var data = {
+        'username': username,
+        'pwd': pwd
+
+      }
+      if ($("#username").val() == '' || $("#pwd").val() == '') {
+        alert("您不能输入空值哦！");
+        
+      } else if (username.match(reg1) == null) {
+        alert("您输入的账号格式不一致，请重新输入！");
+      } else if (pwd.match(reg2) == null) {
+       alert("您输入的密码格式不一致，请重新输入！");
+      } else if (pwd != pwd2) {
+       alert("您前后输入的密码不一致，请重新输入！")
+      } else {
+        $.ajax({
+          url: '{:url("index/index/doReg")}',
+          type: 'POST',
+          data: data,
+          dataType: 'JSON',
+          success: function (res) {
+            // console.log(res.);
+
+            if (res.error_code == 10000) {
+              alert(res.msg);
+              // layer.msg(res.msg, { icon: 1, offset: "auto", time:2000 });
+              location.href = "{:url('index/index/login')}";
+            } else {
+              alert(res.msg);
+            }
+          },
+          error: function (error) {
+            console.log(error)
+          }
+        })
+      }
+    }
+  </script>
+
+
+</body>
+
+</html>
