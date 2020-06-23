@@ -12,11 +12,12 @@ namespace think\migration;
 
 use InvalidArgumentException;
 use Phinx\Db\Adapter\AdapterFactory;
+use think\Config;
 use think\Db;
-use think\facade\Config;
 
 abstract class Command extends \think\console\Command
 {
+    protected $config = 'database';
 
     public function getAdapter()
     {
@@ -43,9 +44,9 @@ abstract class Command extends \think\console\Command
      */
     protected function getDbConfig()
     {
-        $config = Db::connect()->getConfig();
+        $config = Db::connect($this->config)->getConfig();
 
-        if (0 == $config['deploy']) {
+        if ($config['deploy'] == 0) {
             $dbConfig = [
                 'adapter'      => $config['type'],
                 'host'         => $config['hostname'],
@@ -76,7 +77,7 @@ abstract class Command extends \think\console\Command
 
     protected function getConfig($name, $default = null)
     {
-        $config = Config::pull('migration');
+        $config = Config::get('migration');
         return isset($config[$name]) ? $config[$name] : $default;
     }
 

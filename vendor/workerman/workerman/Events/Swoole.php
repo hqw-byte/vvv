@@ -23,8 +23,6 @@ class Swoole implements EventInterface
 
     protected $_timerOnceMap = array();
 
-    protected $mapId = 0;
-
     protected $_fd = array();
 
     // milisecond
@@ -57,10 +55,7 @@ class Swoole implements EventInterface
             case self::EV_TIMER:
             case self::EV_TIMER_ONCE:
                 $method = self::EV_TIMER == $flag ? 'tick' : 'after';
-                if ($this->mapId > PHP_INT_MAX) {
-                    $this->mapId = 0;
-                }
-                $mapId = $this->mapId++;
+                $mapId = count($this->_timerOnceMap);
                 $timer_id = Timer::$method($fd * 1000,
                     function ($timer_id = null) use ($func, $args, $mapId) {
                         call_user_func_array($func, $args);

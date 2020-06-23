@@ -8,9 +8,7 @@
             "email": "liu21st@gmail.com"
         }
     ],
-    "require": {
-	"topthink/framework": "~5.1.20"
-    },
+    "require": {},
     "autoload": {
         "psr-4": {
             "think\\mongo\\": "src"

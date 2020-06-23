@@ -80,7 +80,7 @@ class Index extends Controller
             }
         }
        
-        echo json_encode($resultJson);
+        echo json_encode($resultJson);  
 
     }
 }

@@ -165,18 +165,11 @@ class TcpConnection extends ConnectionInterface
     public static $defaultMaxSendBufferSize = 1048576;
 
     /**
-     * Sets the maximum acceptable packet size for the current connection.
+     * Maximum acceptable packet size.
      *
      * @var int
      */
-    public $maxPackageSize = 1048576;
-    
-    /**
-     * Default maximum acceptable packet size.
-     *
-     * @var int
-     */
-    public static $defaultMaxPackageSize = 10485760;
+    public static $maxPackageSize = 10485760;
 
     /**
      * Id recorder.
@@ -305,7 +298,6 @@ class TcpConnection extends ConnectionInterface
         }
         Worker::$globalEvent->add($this->_socket, EventInterface::EV_READ, array($this, 'baseRead'));
         $this->maxSendBufferSize        = self::$defaultMaxSendBufferSize;
-        $this->maxPackageSize           = self::$defaultMaxPackageSize;
         $this->_remoteAddress           = $remote_address;
         static::$connections[$this->id] = $this;
     }
@@ -623,7 +615,7 @@ class TcpConnection extends ConnectionInterface
                     // The packet length is unknown.
                     if ($this->_currentPackageLength === 0) {
                         break;
-                    } elseif ($this->_currentPackageLength > 0 && $this->_currentPackageLength <= $this->maxPackageSize) {
+                    } elseif ($this->_currentPackageLength > 0 && $this->_currentPackageLength <= static::$maxPackageSize) {
                         // Data is not enough for a package.
                         if ($this->_currentPackageLength > strlen($this->_recvBuffer)) {
                             break;
@@ -746,23 +738,12 @@ class TcpConnection extends ConnectionInterface
             return false;
         }
         $async = $this instanceof AsyncTcpConnection;
-        
-        /**
-          *  We disabled ssl3 because https://blog.qualys.com/ssllabs/2014/10/15/ssl-3-is-dead-killed-by-the-poodle-attack.
-          *  You can enable ssl3 by the codes below.
-          */
-        /*if($async){
-            $type = STREAM_CRYPTO_METHOD_SSLv2_CLIENT | STREAM_CRYPTO_METHOD_SSLv23_CLIENT | STREAM_CRYPTO_METHOD_SSLv3_CLIENT;
-        }else{
-            $type = STREAM_CRYPTO_METHOD_SSLv2_SERVER | STREAM_CRYPTO_METHOD_SSLv23_SERVER | STREAM_CRYPTO_METHOD_SSLv3_SERVER;
-        }*/
-        
         if($async){
             $type = STREAM_CRYPTO_METHOD_SSLv2_CLIENT | STREAM_CRYPTO_METHOD_SSLv23_CLIENT;
         }else{
             $type = STREAM_CRYPTO_METHOD_SSLv2_SERVER | STREAM_CRYPTO_METHOD_SSLv23_SERVER;
         }
-        
+
         // Hidden error.
         set_error_handler(function($errno, $errstr, $file){
             if (!Worker::$daemonize) {
@@ -846,8 +827,6 @@ class TcpConnection extends ConnectionInterface
         }
         if ($this->_sendBuffer === '') {
             $this->destroy();
-        } else {
-            $this->pauseRecv();
         }
     }
 
@@ -963,7 +942,6 @@ class TcpConnection extends ConnectionInterface
                 exit(250);
             }
         }
-        $this->_sendBuffer = $this->_recvBuffer = '';
         if ($this->_status === self::STATUS_CLOSED) {
             // Cleaning up the callback to avoid memory leaks.
             $this->onMessage = $this->onClose = $this->onError = $this->onBufferFull = $this->onBufferDrain = null;

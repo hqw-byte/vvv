@@ -13,7 +13,6 @@ namespace think\migration\command;
 
 use Phinx\Seed\AbstractSeed;
 use Phinx\Util\Util;
-use think\facade\Env;
 use think\migration\Command;
 use think\migration\Seeder;
 
@@ -27,13 +26,13 @@ abstract class Seed extends Command
 
     protected function getPath()
     {
-        return Env::get('root_path') . 'database' . DIRECTORY_SEPARATOR . 'seeds';
+        return $this->getConfig('path', ROOT_PATH . 'database') . DS . 'seeds';
     }
 
     public function getSeeds()
     {
         if (null === $this->seeds) {
-            $phpFiles = glob($this->getPath() . DIRECTORY_SEPARATOR . '*.php', defined('GLOB_BRACE') ? GLOB_BRACE : 0);
+            $phpFiles = glob($this->getPath() . DS . '*.php', defined('GLOB_BRACE') ? GLOB_BRACE : 0);
 
             // filter the files to only get the ones that match our naming scheme
             $fileNames = [];

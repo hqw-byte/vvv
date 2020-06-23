@@ -75,6 +75,8 @@
                         alert(res.msg);
                         // layer.msg(res.msg, { icon: 1, offset: "auto", time:2000 });
                         location.href = "{:url('index/index/index')}";
+                    }else if(res.error_code == 10002){
+                        alert(res.msg);
                     }else{
                         alert(res.msg);
                     }

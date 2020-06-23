@@ -4,19 +4,20 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit50627e7b83feda0642d2a013e58fc540
+class ComposerStaticInit2bc4f313dba415539e266f7ac2c87dcd
 {
     public static $files = array (
-        '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
         '9b552a3cc426e3287cc811caefa3cf53' => __DIR__ . '/..' . '/topthink/think-helper/src/helper.php',
+        '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
         'ddc3cd2a04224f9638c5d0de6a69c7e3' => __DIR__ . '/..' . '/topthink/think-migration/src/config.php',
-        'ffc1d7141d4fcbaeb47a6929f0811ed1' => __DIR__ . '/..' . '/topthink/think-worker/src/command.php',
+        'cc56288302d9df745d97c934d6a6e5f0' => __DIR__ . '/..' . '/topthink/think-queue/src/common.php',
     );
 
     public static $prefixLengthsPsr4 = array (
         't' => 
         array (
             'think\\worker\\' => 13,
+            'think\\oracle\\' => 13,
             'think\\mongo\\' => 12,
             'think\\migration\\' => 16,
             'think\\helper\\' => 13,
@@ -36,16 +37,16 @@ class ComposerStaticInit50627e7b83feda0642d2a013e58fc540
         array (
             'Phinx\\' => 6,
         ),
-        'G' => 
-        array (
-            'GatewayWorker\\' => 14,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'think\\worker\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-worker/src',
+        ),
+        'think\\oracle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/topthink/think-oracle/src',
         ),
         'think\\mongo\\' => 
         array (
@@ -69,7 +70,9 @@ class ComposerStaticInit50627e7b83feda0642d2a013e58fc540
         ),
         'think\\' => 
         array (
-            0 => __DIR__ . '/..' . '/topthink/think-image/src',
+            0 => __DIR__ . '/../..' . '/thinkphp/library/think',
+            1 => __DIR__ . '/..' . '/topthink/think-image/src',
+            2 => __DIR__ . '/..' . '/topthink/think-queue/src',
         ),
         'app\\' => 
         array (
@@ -83,17 +86,13 @@ class ComposerStaticInit50627e7b83feda0642d2a013e58fc540
         array (
             0 => __DIR__ . '/..' . '/topthink/think-migration/phinx/src/Phinx',
         ),
-        'GatewayWorker\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/workerman/gateway-worker/src',
-        ),
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit50627e7b83feda0642d2a013e58fc540::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit50627e7b83feda0642d2a013e58fc540::$prefixDirsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit2bc4f313dba415539e266f7ac2c87dcd::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit2bc4f313dba415539e266f7ac2c87dcd::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }

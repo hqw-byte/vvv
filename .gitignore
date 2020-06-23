@@ -1,5 +1,4 @@
-/.idea
-/.vscode
+.idea
+composer.lock
 *.log
-.env
-.DS_Store
+thinkphp
