@@ -45,6 +45,7 @@ class Index extends Controller
         }
         echo json_encode($resultJson);
     }
+    // 登录功能
     public function dologin(){
         $username = input('post.username','');
         $password = input('post.pwd','');
