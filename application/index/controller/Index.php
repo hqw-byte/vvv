@@ -57,7 +57,7 @@ class Index extends Controller
                 'error_code' => 10002,
                 'msg' => '验证码错误!'
             ];
-
+            echo json_encode($resultJson);  
         }else{
             $where = [
                 'username'=>  $username,

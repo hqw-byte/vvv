@@ -70,15 +70,11 @@
                 dataType: 'JSON',
                 success: function (res) {
                 // console.log(res.);
-                   
+                    alert(res.msg);
                     if(res.error_code == 10000){
-                        alert(res.msg);
+                       
                         // layer.msg(res.msg, { icon: 1, offset: "auto", time:2000 });
                         location.href = "{:url('index/index/index')}";
-                    }else if(res.error_code == 10002){
-                        alert(res.msg);
-                    }else{
-                        alert(res.msg);
                     }
                 },
                 error: function (error) {
