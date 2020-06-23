@@ -61,7 +61,7 @@ class Index extends Controller
             // echo '验证码错误';
             $resultJson = [
                 'error_code' => 10001,
-                'msg' => $errorCode[10001]
+                'msg' => '验证码错误!'
             ];
         }else{
            
@@ -73,14 +73,14 @@ class Index extends Controller
            if($result){
                 $resultJson = [
                     'error_code' => 10000,
-                    'msg' => $errorCode[10000]
+                    'msg' => '登录成功!'
                 ];
                 Session::set('username', $username);
 
            }else{
             $resultJson = [
                 'error_code' => 10002,
-                'msg' => $errorCode[10002]
+                'msg' => '账号或密码错误!'
             ];
            }
         };
