@@ -59,6 +59,7 @@ class Index extends Controller
             $user->username = $post['username'];
             $user->password = $post['pwd'];
             $user->address = '厦门';
+            $user->loginTime = time();
 
             // $where = [
             //     'username'=>$username,
