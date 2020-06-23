@@ -71,16 +71,16 @@ class Index extends Controller
                 ];
                 // Session::set('name','thinkphp');
                 Session::set('username', $username);
+                echo json_encode($resultJson);  
             }else{
                 $resultJson = [
                     'error_code' => 10001,
                     'msg' => '账号或密码错误，登录失败!'
                 ];
+                echo json_encode($resultJson);  
                
             }
         }
-       
-        echo json_encode($resultJson);  
 
     }
 }
