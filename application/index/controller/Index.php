@@ -40,6 +40,44 @@ class Index extends Controller
         return $this->fetch('index',['list'=>$result]);
         
     }
+    public function doReg(){
+        $username = input('post.username','');
+        $password = input('post.pwd','');
+        $result = db('wjx_user')->where('username',$username)->find();
+        if($result){
+            $resultJson = [
+                'error_code' => 10001,
+                'msg' => '账号重复，请重新输入!'
+            ];
+        }else{
+            $post = $_POST;
+            $user = new UserModel();
+            $user->username = $post['username'];
+            $user->password = $post['pwd'];
+            $user->address = '厦门';
+
+            // $where = [
+            //     'username'=>$username,
+            //     'password'=>$password,
+            //     'address'=>'厦门'
+            // ];
+            // $result = db('wjx_user')->insert($where, true);
+
+            if($user->save()){
+                $resultJson = [
+                    'error_code' => 10000,
+                    'msg' => '注册成功!'
+                ];
+            }else{
+                $resultJson = [
+                    'error_code' => 10002,
+                    'msg' => '注册失败!'
+                ];
+            }
+
+        }
+        echo json_encode($resultJson);
+    }
     public function login()
     {
         return $this->fetch('login');
@@ -54,7 +92,7 @@ class Index extends Controller
         // var_dump($username);
         // var_dump($password);
         // var_dump($code);
-
+        
         if(!captcha_check($code)){
             //验证失败
             // echo '验证码错误';
