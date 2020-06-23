@@ -52,7 +52,7 @@ class Index extends Controller
         $code = input('post.code','');
         if(!captcha_check($code)){
             // 验证失败
-            echo '验证码错误';
+            // echo '验证码错误';
             $resultJson = [
                 'error_code' => 10002,
                 'msg' => '验证码错误!'
