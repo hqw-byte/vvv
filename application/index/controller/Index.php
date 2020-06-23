@@ -40,6 +40,9 @@ class Index extends Controller
         return $this->fetch('index',['list'=>$result]);
         
     }
+    public function reg(){
+        return $this->fetch('reg');
+    }
     public function doReg(){
         $username = input('post.username','');
         $password = input('post.pwd','');
