@@ -3,7 +3,7 @@ namespace app\index\controller;
 
 use think\Controller;
 use think\Session;
-use think\UserModel;
+use app\index\model\UserModel;
 class Index extends Controller
 {
     public function index()
