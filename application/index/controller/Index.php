@@ -54,7 +54,6 @@ class Index extends Controller
         // var_dump($username);
         // var_dump($password);
         // var_dump($code);
-        $errorCode = config('Error_code');
 
         if(!captcha_check($code)){
             //验证失败
@@ -96,7 +95,8 @@ class Index extends Controller
         $data = [
             'username' => $username,
             'password' => $password,
-            'address' => $address
+            'address' => $address,
+            'loginTime'=>time()
 
         ];
         $result = db('wjx_user')->insert($data);
