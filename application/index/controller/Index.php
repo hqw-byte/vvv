@@ -1,7 +1,7 @@
 <?php
 namespace app\index\controller;
 use think\Controller;
-use think\facade\Session;
+use think\Session;
 
 class Index extends Controller
 {
